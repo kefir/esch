@@ -1,11 +1,13 @@
 #include "esch.h"
 
-#include <stdio.h>
 #include <string.h>
 
 static esch_task_t task_pool[ESCH_TASK_NUM + 1];
 
+static uint32_t tick = 0;
 static uint8_t tick_flag = 0;
+
+static uint8_t esch_tick_flag_get();
 
 void esch_init()
 {
@@ -20,9 +22,11 @@ void esch_init()
             task_pool[ESCH_TASK_NUM].interval = -1;
         }
     }
+
+    esch_port_init();
 }
 
-esch_task_t* esch_task_create(const char* name, uint32_t interval, uint16_t prio, esch_task_fn func)
+esch_task_t* esch_task_create(const char* name, uint32_t interval, uint16_t prio, esch_task_fn func, void* arg)
 {
     // check if desired priority is out of bounds
     if (prio >= ESCH_TASK_NUM) {
@@ -36,9 +40,25 @@ esch_task_t* esch_task_create(const char* name, uint32_t interval, uint16_t prio
             task_pool[prio].priority = prio;
             task_pool[prio].interval = interval;
             task_pool[prio].function = func;
+            if (arg) {
+                task_pool[prio].arg = arg;
+            }
         }
     }
     return &task_pool[prio];
+}
+
+void esch_task_delete(esch_task_t* task_handler)
+{
+    if (task_handler) {
+        for (uint16_t i = 0; i < ESCH_TASK_NUM; i++) {
+            if (task_handler == &task_pool[i]) {
+                task_pool[i].function = NULL;
+                task_pool[i].interval = 0;
+                break;
+            }
+        }
+    }
 }
 
 esch_task_t* esch_idle_task_register_callback(esch_task_fn func)
@@ -50,33 +70,43 @@ esch_task_t* esch_idle_task_register_callback(esch_task_fn func)
 
 void esch_tick_advance()
 {
-    tick_flag = 1;
+    if (tick_flag) {
+        // TODO: diagnostics for timing violations
+    } else {
+        tick_flag = 1;
+    }
+
+    tick++;
+}
+
+uint32_t esch_tick_get()
+{
+    return tick;
 }
 
 void esch_run()
 {
-    printf("Starting scheduler...\r\n");
+    tick = 0;
+
     for (;;) {
         for (uint16_t i = 0; i < (ESCH_TASK_NUM + 1); i++) {
             esch_task_t* active_task = &task_pool[i];
 
             if (active_task->function) {
                 if (active_task->elapsed >= active_task->interval || active_task->interval < 0) {
-                    active_task->function(NULL);
+                    active_task->function(active_task->arg);
                     active_task->elapsed = 0;
                 }
                 active_task->elapsed++;
             }
         }
 
-        int msec = 0, trigger = 1; /* ms */
-
-        clock_t before = esch_get_time();
-
-        do {
-            clock_t difference = esch_get_time() - before;
-            msec = difference * ESCH_TICK_FREQ / CLOCKS_PER_SEC;
-
-        } while (msec < trigger);
+        tick_flag = 0;
+        while (!esch_tick_flag_get()) { }
     }
+}
+
+static uint8_t esch_tick_flag_get()
+{
+    return tick_flag;
 }
