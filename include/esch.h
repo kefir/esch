@@ -18,9 +18,19 @@
 /**
  * @brief Task function callback.
  * Should be something like "void task_callback_name(void *arg)".
- * Should not be using for loops. 
+ * Should not be using for-loops. 
  * 
  * Can accept argument(s) as a pointer.
+ * 
+ * ```c
+ * void task_callback_name(void *arg){
+ *   do_stuff();
+ * }
+ * 
+ * // create task with 1000 tick interval, highest priority (0) and no arguments
+ * esch_task_create("TASK_NAME", 1000, 0, task_callback_name, NULL);
+ * 
+ * ```
  * 
  */
 typedef void (*esch_task_fn)(void* args);
@@ -30,12 +40,12 @@ typedef void (*esch_task_fn)(void* args);
  * 
  */
 typedef struct {
-    uint16_t priority;
-    int interval;
-    int elapsed;
-    char name[ESCH_TASK_NAME_SIZE];
-    esch_task_fn function;
-    void* arg;
+    uint16_t priority; /**< Task priority also position in task pool*/
+    int interval; /**< Desired interval in scheduler ticks */
+    int elapsed; /**< Time elapsed since last call */
+    char name[ESCH_TASK_NAME_SIZE]; /**< User-readable task name*/
+    esch_task_fn function; /**< Pointer to task function*/
+    void* arg; /**< Optional argument for the task. May be NULL*/
 } esch_task_t;
 
 /**
@@ -55,7 +65,7 @@ void esch_port_init();
  * @brief Creates a task and adds it to the pool.
  * 
  * @param name User-readable task name.
- * @param interval Interval in scheduler task ticks. Should be >= 1 of system ticks.
+ * @param interval Interval in scheduler ticks. Should be >= 1 of system ticks.
  * Can be 0 for one-time executed tasks that are expected to be deleted on completion.
  * @param prio Task prority. Highest priority is 0, lowest is (ESCH_TASK_NUM - 1).
  * Setting value outside this scope will result in an error.

@@ -1,7 +1,17 @@
+/**
+ * @file esch_config_template.h
+ * @author Sergey Tkachenko (sergey.iray@yandex.ru)
+ * @brief 
+ * @version 0.0.1
+ * @date 2021-05-09
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
 #pragma once
 
 /**
- * @brief User devined includes
+ * @brief User-defined includes.
  * 
  */
 
