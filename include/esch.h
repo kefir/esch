@@ -1,3 +1,13 @@
+/**
+ * @file esch.h
+ * @author Sergey Tkachenko (sergey.iray@yandex.ru)
+ * @brief 
+ * @version 0.0.1
+ * @date 2021-05-09
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
 #pragma once
 
 #include "esch_config.h"

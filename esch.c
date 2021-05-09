@@ -1,3 +1,13 @@
+/**
+ * @file esch.c
+ * @author Sergey Tkachenko (sergey.iray@yandex.ru)
+ * @brief 
+ * @version 0.0.1
+ * @date 2021-05-09
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
 #include "esch.h"
 
 #include <string.h>
