@@ -41,8 +41,8 @@ typedef void (*esch_task_fn)(void* args);
  */
 typedef struct {
     uint16_t priority; /**< Task priority also position in task pool*/
-    int interval; /**< Desired interval in scheduler ticks */
-    int elapsed; /**< Time elapsed since last call */
+    uint32_t interval; /**< Desired interval in scheduler ticks */
+    uint32_t elapsed; /**< Time elapsed since last call */
     char name[ESCH_TASK_NAME_SIZE]; /**< User-readable task name*/
     esch_task_fn function; /**< Pointer to task function*/
     void* arg; /**< Optional argument for the task. May be NULL*/

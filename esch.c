@@ -75,7 +75,7 @@ void esch_task_delete(esch_task_t* task_handler)
 esch_task_t* esch_idle_task_register_callback(esch_task_fn func)
 {
     task_pool[ESCH_TASK_NUM].function = func;
-    task_pool[ESCH_TASK_NUM].interval = -1;
+    task_pool[ESCH_TASK_NUM].interval = 0;
     return &task_pool[ESCH_TASK_NUM];
 }
 
@@ -104,7 +104,7 @@ void esch_run()
             esch_task_t* active_task = &task_pool[i];
 
             if (active_task->function) {
-                if (active_task->elapsed >= active_task->interval || active_task->interval < 0) {
+                if (active_task->elapsed >= active_task->interval) {
                     active_task->function(active_task->arg);
                     active_task->elapsed = 0;
                 }
