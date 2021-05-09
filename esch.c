@@ -47,6 +47,7 @@ esch_task_t* esch_task_create(const char* name, uint32_t interval, uint16_t prio
             return NULL;
         } else {
             strcpy(task_pool[prio].name, name);
+            task_pool[prio].elapsed = 0;
             task_pool[prio].priority = prio;
             task_pool[prio].interval = interval;
             task_pool[prio].function = func;

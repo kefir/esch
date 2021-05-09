@@ -87,7 +87,7 @@ void esch_task_delete(esch_task_t* task_handle);
 /**
  * @brief Registers idle task callback.
  * If no idle task required this fucntion can accept NULL but not required
- * as esch_init function does this by default.
+ * as esch_init() function does this by default.
  * 
  * @param func 
  * @return esch_task_t* Returns pointer to idle task handle or NULL in case of an error.
@@ -104,7 +104,7 @@ void esch_tick_advance();
 
 /**
  * @brief Get current ESCH system timer tick value. 
- * Counted from first esch_run call
+ * Counted from first esch_run() call
  * 
  * @return uint32_t Returns system timer tick value.
  */
