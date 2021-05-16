@@ -117,7 +117,7 @@ void esch_run()
     }
 }
 
-uint32_t esch_ms_to_ticks(uint32_t msec)
+inline uint32_t esch_ms_to_ticks(uint32_t msec)
 {
     return msec * ESCH_TICK_FREQ / 1000U;
 }

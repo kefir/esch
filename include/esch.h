@@ -126,7 +126,7 @@ void esch_run();
  * @param msec milliseconds
  * @return uint32_t ESCH ticks
  */
-inline uint32_t esch_ms_to_ticks(uint32_t msec);
+uint32_t esch_ms_to_ticks(uint32_t msec);
 
 #ifdef __cplusplus
 }
