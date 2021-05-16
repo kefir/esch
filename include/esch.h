@@ -15,6 +15,10 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
  * @brief Task function callback.
  * Should be something like "void task_callback_name(void *arg)".
@@ -65,7 +69,7 @@ void esch_port_init();
  * @brief Creates a task and adds it to the pool.
  * 
  * @param name User-readable task name.
- * @param interval Interval in scheduler ticks. Should be >= 1 of system ticks.
+ * @param interval Interval in ESCH ticks. Should be >= 1 of system ticks.
  * Can be 0 for one-time executed tasks that are expected to be deleted on completion.
  * @param prio Task prority. Highest priority is 0, lowest is (ESCH_TASK_NUM - 1).
  * Setting value outside this scope will result in an error.
@@ -111,7 +115,19 @@ void esch_tick_advance();
 uint32_t esch_tick_get();
 
 /**
- * @brief Runs scheduler
+ * @brief Runs the scheduler
  * 
  */
 void esch_run();
+
+/**
+ * @brief Convert milliseconds to ESCH system timer ticks.
+ * 
+ * @param msec milliseconds
+ * @return uint32_t ESCH ticks
+ */
+inline uint32_t esch_ms_to_ticks(uint32_t msec);
+
+#ifdef __cplusplus
+}
+#endif

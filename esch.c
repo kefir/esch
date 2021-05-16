@@ -117,6 +117,11 @@ void esch_run()
     }
 }
 
+inline uint32_t esch_ms_to_ticks(uint32_t msec)
+{
+    return msec * ESCH_TICK_FREQ / 1000U;
+}
+
 static uint8_t esch_tick_flag_get()
 {
     return tick_flag;
