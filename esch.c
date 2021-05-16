@@ -15,7 +15,7 @@
 static esch_task_t task_pool[ESCH_TASK_NUM + 1];
 
 static uint32_t tick = 0;
-static uint8_t tick_flag = 0;
+volatile static uint8_t tick_flag = 0;
 
 static uint8_t esch_tick_flag_get();
 

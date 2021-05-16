@@ -20,6 +20,18 @@ extern "C" {
 #endif
 
 /**
+ * @brief Minimum priority (equal to ESCH_TASK_NUM)
+ * 
+ */
+#define ESCH_PRIO_MIN ESCH_TASK_NUM
+
+/**
+ * @brief Macimum priority
+ * 
+ */
+#define ESCH_PRIO_MIN ESCH_TASK_NUM
+
+/**
  * @brief Task function callback.
  * Should be something like "void task_callback_name(void *arg)".
  * Should not be using for-loops. 
