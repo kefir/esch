@@ -79,6 +79,16 @@ esch_task_t* esch_idle_task_register_callback(esch_task_fn func)
     return &task_pool[ESCH_TASK_NUM];
 }
 
+void esch_task_interval_set(esch_task_t* task_handle, uint32_t interval)
+{
+    for (uint16_t task_prio = 0; task_prio < ESCH_TASK_NUM; task_prio++) {
+
+        if (task_handle == &task_pool[task_prio]) {
+            task_pool[task_prio].interval = interval;
+        }
+    }
+}
+
 void esch_tick_advance()
 {
     if (tick_flag) {

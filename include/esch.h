@@ -111,6 +111,14 @@ void esch_task_delete(esch_task_t* task_handle);
 esch_task_t* esch_idle_task_register_callback(esch_task_fn func);
 
 /**
+ * @brief Sets task interval
+ * 
+ * @param task_handle Pointer to task handle
+ * @param interval Desired interval in scheduler ticks
+ */
+void esch_task_interval_set(esch_task_t* task_handle, uint32_t interval);
+
+/**
  * @brief Advances system tick.
  * Should be called from system tick source, 
  * implemented by user in esch_port.c.
