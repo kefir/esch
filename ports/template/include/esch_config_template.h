@@ -32,3 +32,9 @@
  * 
  */
 #define ESCH_TICK_FREQ 1000
+
+/**
+ * @brief Number of user-defined semaphores.
+ * 
+ */
+#define ESCH_SEMAPHORE_NUM 10

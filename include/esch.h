@@ -10,14 +10,12 @@
  */
 #pragma once
 
-#include "esch_config.h"
-
-#include <stddef.h>
-#include <stdint.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#include "esch_config.h"
+#include "esch_err.h"
 
 /**
  * @brief Minimum priority (equal to ESCH_TASK_NUM)
