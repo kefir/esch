@@ -39,6 +39,8 @@ esch_err esch_queue_add(esch_queue_t* queue, void* item)
                 memcpy(queue->item_current, item, queue->item_size);
                 queue->count++;
                 err = ESCH_OK;
+            } else {
+                err = ESCH_QUEUE_FULL;
             }
         }
     }
@@ -57,6 +59,9 @@ esch_err esch_queue_get(esch_queue_t* queue, void* item)
                     ? queue->buffer
                     : (queue->item_top + queue->item_size);
                 queue->count--;
+                err = ESCH_OK;
+            } else {
+                err = ESCH_QUEUE_EMPTY;
             }
         }
     }
