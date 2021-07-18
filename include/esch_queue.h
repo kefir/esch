@@ -22,17 +22,30 @@ extern "C" {
  * 
  */
 typedef struct {
-    const uint32_t item_size; /**< User-defined item size */
-    const uint32_t item_count; /**< User-defined item count / queue length */
-    void* buffer; /**< User-defined pointer to queue memory. Should be (item_size * item_count) in size */
-    void* item_top; /**< Top item pointer. Should not be accessed by user */
-    void* item_current; /**< Current item pointer. Should not be accessed by user */
-    void* item_end; /**< Address of last item. Should not be accessed by user */
-    uint32_t count; /**< Quantity of items in queue. Should not be accessed by user */
+    const uint32_t item_size; /** User-defined item size */
+    const uint32_t item_count; /** User-defined item count / queue length */
+    void* buffer; /** User-defined pointer to queue memory. Should be (item_size * item_count) in size */
+    void* item_top; /** Top item pointer. Should not be accessed by user */
+    void* item_current; /** Current item pointer. Should not be accessed by user */
+    void* item_end; /** Address of last item. Should not be accessed by user */
+    uint32_t count; /** Quantity of items in queue. Should not be accessed by user */
 } esch_queue_t;
 
 /**
  * @brief Initializes the queue
+ * 
+ * ```c
+ * #define BUFF_SIZE 5
+ * static uint32_t buff[BUFF_SIZE];
+ * 
+ * esch_queue_t queue = {
+ *      .item_size = sizeof(uint32_t),
+ *      .item_count = BUFF_SIZE,
+ *      .buffer = buff
+ *  };
+ * 
+ * esch_queue_create(&queue);
+ * ```
  * 
  * @note Must be called before using esch_queue_add or esch_queue_get
  * 
