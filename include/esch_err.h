@@ -22,9 +22,11 @@ extern "C" {
  * 
  */
 typedef enum {
-    ESCH_OK = 0U, /**< No error*/
-    ESCH_FAIL, /**< Generic error*/
-    ESCH_LOCK /**< Unable to access locked resource*/
+    ESCH_OK = 0U, /** No error */
+    ESCH_FAIL, /** Generic error */
+    ESCH_LOCK, /** Unable to access locked resource */
+    ESCH_QUEUE_EMPTY, /** Queue is empty */
+    ESCH_QUEUE_FULL, /** Queue is full */
 } esch_err;
 
 #ifdef __cplusplus

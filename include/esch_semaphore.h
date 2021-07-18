@@ -28,8 +28,8 @@ extern "C" {
  * 
  */
 typedef enum {
-    ESCH_SEMAPHORE_FREE = 0U, /**< Semaphore is free*/
-    ESCH_SEMAPHORE_TAKEN = 1U /**< Semaphore is taken*/
+    ESCH_SEMAPHORE_FREE = 0U, /** Semaphore is free*/
+    ESCH_SEMAPHORE_TAKEN = 1U /** Semaphore is taken*/
 } esch_semaphore_state_e;
 
 /**
@@ -37,8 +37,8 @@ typedef enum {
  * 
  */
 typedef struct {
-    uint32_t id; /**< Unique identifier**/
-    volatile esch_semaphore_state_e state; /**< Semaphore state of type esch_semaphore_state_e*/
+    uint32_t id; /** Unique identifier**/
+    volatile esch_semaphore_state_e state; /** Semaphore state of type esch_semaphore_state_e*/
 } esch_semaphore_t;
 
 /**
