@@ -1,26 +1,36 @@
 /**
  * @file esch.c
  * @author Sergey Tkachenko (sergey.iray@yandex.ru)
- * @brief 
+ * @brief
  * @version 0.0.1
  * @date 2021-05-09
- * 
+ *
  * @copyright Copyright (c) 2021
- * 
+ *
  */
 #include "esch.h"
 
 #include <string.h>
+
+#if ESCH_USE_PROFILER == 1
+#include "esch_profiler.h"
+static bool profiler_enabled = false;
+#endif
+
+static uint8_t esch_tick_flag_get();
 
 static esch_task_t task_pool[ESCH_TASK_NUM + 1];
 
 static uint32_t tick = 0;
 volatile static uint8_t tick_flag = 0;
 
-static uint8_t esch_tick_flag_get();
-
 void esch_init()
 {
+
+#if ESCH_USE_PROFILER == 1
+    profiler_enabled = false;
+#endif
+
     memset(task_pool, 0, sizeof(task_pool));
 
     for (uint16_t task_prio = 0; task_prio < (ESCH_TASK_NUM + 1); task_prio++) {

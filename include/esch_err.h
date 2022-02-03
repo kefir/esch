@@ -1,12 +1,12 @@
 /**
  * @file esch_err.h
  * @author Sergey Tkachenko (sergey.iray@yandex.ru)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2021-06-01
- * 
+ *
  * @copyright Copyright (c) 2021
- * 
+ *
  */
 #pragma once
 
@@ -14,12 +14,13 @@
 extern "C" {
 #endif
 
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 
 /**
  * @brief ESCH error types
- * 
+ *
  */
 typedef enum {
     ESCH_OK = 0U, /** No error */
