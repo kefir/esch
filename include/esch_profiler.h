@@ -18,14 +18,26 @@ extern "C" {
 #include "esch_config.h"
 #include "esch_err.h"
 
-#if ESCH_USE_PROFILER == 1
+typedef struct {
+    void (*timer_clear)(void);
+    void (*timer_enable)(bool);
+    uint32_t (*timer_count_get)(void);
+} esch_profiler_t;
+
+// TODO: add errors
+
+void esch_profiler_init(esch_profiler_t* config);
+
 /**
  * @brief Enables or disables task profiler runtime.
  *
  * @param enable
  */
 void esch_profiler_enable(bool enable);
-#endif
+
+void esch_profiler_clear(void);
+
+uint32_t esch_profiler_count_get(void);
 
 #ifdef __cplusplus
 }
