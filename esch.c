@@ -12,24 +12,15 @@
 
 #include <string.h>
 
-#if ESCH_USE_PROFILER == 1
-#include "esch_profiler.h"
-static bool profiler_enabled = false;
-#endif
-
-static uint8_t esch_tick_flag_get();
+// static uint8_t esch_tick_flag_get();
 
 static esch_task_t task_pool[ESCH_TASK_NUM + 1];
 
-static uint32_t tick = 0;
-volatile static uint8_t tick_flag = 0;
+static volatile uint32_t tick = 0;
+// static volatile uint8_t tick_flag = 0;
 
 void esch_init()
 {
-
-#if ESCH_USE_PROFILER == 1
-    profiler_enabled = false;
-#endif
 
     memset(task_pool, 0, sizeof(task_pool));
 
@@ -61,6 +52,9 @@ esch_task_t* esch_task_create(const char* name, uint32_t interval, uint16_t prio
             task_pool[prio].priority = prio;
             task_pool[prio].interval = interval;
             task_pool[prio].function = func;
+#if ESCH_USE_PROFILER == 1
+            task_pool[prio].profiler.exec_mcutick_count = 0;
+#endif
             if (arg) {
                 task_pool[prio].arg = arg;
             }
@@ -75,7 +69,6 @@ void esch_task_delete(esch_task_t* task_handler)
         for (uint16_t i = 0; i < ESCH_TASK_NUM; i++) {
             if (task_handler == &task_pool[i]) {
                 task_pool[i].function = NULL;
-                task_pool[i].interval = 0;
                 break;
             }
         }
@@ -101,12 +94,6 @@ void esch_task_interval_set(esch_task_t* task_handle, uint32_t interval)
 
 void esch_tick_advance()
 {
-    if (tick_flag) {
-        // TODO: diagnostics for timing violations
-    } else {
-        tick_flag = 1;
-    }
-
     tick++;
 }
 
@@ -124,16 +111,25 @@ void esch_run()
             esch_task_t* active_task = &task_pool[i];
 
             if (active_task->function) {
-                if (active_task->elapsed >= active_task->interval) {
+                volatile uint32_t tick_curr = tick;
+                uint32_t time_delta = (tick_curr - active_task->elapsed);
+                if (time_delta >= active_task->interval) {
+#if ESCH_USE_PROFILER == 1
+                    esch_profiler_clear();
+#endif
                     active_task->function(active_task->arg);
-                    active_task->elapsed = 0;
+                    active_task->elapsed = tick;
+#if ESCH_USE_PROFILER == 1
+                    active_task->profiler.exec_mcutick_count = esch_profiler_count_get();
+#endif
                 }
-                active_task->elapsed++;
             }
         }
-
-        tick_flag = 0;
-        while (!esch_tick_flag_get()) { }
+#if ESCH_USE_PROFILER == 1
+        asm("nop");
+#endif
+        // tick_flag = 0;
+        // while (!esch_tick_flag_get()) { }
     }
 }
 
@@ -142,7 +138,7 @@ inline uint32_t esch_ms_to_ticks(uint32_t msec)
     return msec * ESCH_TICK_FREQ / 1000U;
 }
 
-static uint8_t esch_tick_flag_get()
-{
-    return tick_flag;
-}
+// static uint8_t esch_tick_flag_get()
+// {
+//     return tick_flag;
+// }
