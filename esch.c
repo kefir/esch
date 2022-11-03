@@ -21,8 +21,10 @@ static volatile uint32_t tick = 0;
 
 void esch_init()
 {
-
-    memset(task_pool, 0, sizeof(task_pool));
+    for (uint32_t i = 0; i < sizeof(task_pool); i++) {
+        ((uint8_t*)task_pool)[i] = 0;
+    }
+    // memset(task_pool, 0, sizeof(task_pool));
 
     for (uint16_t task_prio = 0; task_prio < (ESCH_TASK_NUM + 1); task_prio++) {
         task_pool[task_prio].priority = task_prio;
@@ -47,7 +49,11 @@ esch_task_t* esch_task_create(const char* name, uint32_t interval, uint16_t prio
         if (task_pool[prio].function) {
             return NULL;
         } else {
-            strcpy(task_pool[prio].name, name);
+            uint8_t str_count = 0;
+            while (name[str_count] != '\0') {
+                task_pool[prio].name[str_count] = name[str_count];
+                str_count++;
+            }
             task_pool[prio].elapsed = 0;
             task_pool[prio].priority = prio;
             task_pool[prio].interval = interval;

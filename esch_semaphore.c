@@ -1,6 +1,6 @@
 #include "esch_semaphore.h"
 
-#include <string.h>
+// #include <string.h>
 
 static esch_semaphore_t semaphore_poll[ESCH_SEMAPHORE_NUM];
 static uint32_t semaphore_count = 0;
@@ -8,7 +8,7 @@ static uint32_t semaphore_id_count = 0;
 
 /**
  * @brief Initializes semaphore poll on first `esch_semaphore_create` call
- * 
+ *
  */
 static void init();
 
@@ -90,5 +90,5 @@ esch_err esch_semaphore_delete(esch_semaphore_t* semaphore)
 
 static void init()
 {
-    memset(semaphore_poll, 0, sizeof(semaphore_poll));
+    // memset(semaphore_poll, 0, sizeof(semaphore_poll));
 }
