@@ -117,14 +117,14 @@ void esch_run()
             esch_task_t* active_task = &task_pool[i];
 
             if (active_task->function) {
-                volatile uint32_t tick_curr = tick;
+                volatile uint32_t tick_curr = esch_tick_get();
                 uint32_t time_delta = (tick_curr - active_task->elapsed);
-                if (time_delta >= active_task->interval) {
+                if (time_delta >= (active_task->interval - 1)) {
 #if ESCH_USE_PROFILER == 1
                     esch_profiler_clear();
 #endif
                     active_task->function(active_task->arg);
-                    active_task->elapsed = tick;
+                    active_task->elapsed = esch_tick_get();
 #if ESCH_USE_PROFILER == 1
                     active_task->profiler.exec_mcutick_count = esch_profiler_count_get();
 #endif
