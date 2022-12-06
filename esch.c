@@ -119,7 +119,7 @@ void esch_run()
             if (active_task->function) {
                 volatile uint32_t tick_curr = esch_tick_get();
                 uint32_t time_delta = (tick_curr - active_task->elapsed);
-                if (time_delta >= (active_task->interval - 1)) {
+                if (time_delta >= active_task->interval) {
 #if ESCH_USE_PROFILER == 1
                     esch_profiler_clear();
 #endif
