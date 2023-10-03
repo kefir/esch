@@ -29,7 +29,7 @@ typedef struct {
         uint32_t _head; /** Read item index. */
         uint32_t _tail; /** Write item indexm. */
         uint32_t _count; /** Quantity of items in queue. */
-    } private; /** Should not be accessed by user */
+    } _private; /** Should not be accessed by user */
 } esch_queue_t;
 
 /**
